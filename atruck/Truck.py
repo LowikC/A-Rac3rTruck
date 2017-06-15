@@ -1,7 +1,6 @@
 import time
 from Queue import Queue
 from CameraStreamer import CameraStreamer
-import Queue
 import cv2
 
 
