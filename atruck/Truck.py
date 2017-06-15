@@ -1,5 +1,5 @@
 import time
-from Queue import Queue
+from Queue import Queue, Empty
 from CameraStreamer import CameraStreamer
 import cv2
 
@@ -13,12 +13,12 @@ class Truck(object):
         self.camera_streamer.start()
         for i in range(10):
             try:
-                timestamp_s, image_bgr = \
-                    self.camera_images.get(block=True, timeout=0.5)
+                image_bgr, timestamp_s = \
+                    self.camera_images.get(block=True, timeout=1)
                 print("Timestamp: ", timestamp_s)
                 cv2.imwrite("/home/robot/{}.jpg".format(timestamp_s), image_bgr)
-                time.sleep(0.1)
-            except Queue.Empty:
+                time.sleep(1)
+            except Empty:
                 print("Can't get an image")
                 self.stop()
         self.stop()
