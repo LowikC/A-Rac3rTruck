@@ -1,7 +1,7 @@
 import unittest
 import time
 from context import atruck
-from atruck.Camera import Camera
+from atruck.Camera import Camera, NoCameraException
 
 
 class TestCamera(unittest.TestCase):
@@ -17,6 +17,9 @@ class TestCamera(unittest.TestCase):
             im, ts = cam.next_image()
             self.assertGreater(ts, previous_ts)
             time.sleep(0.5)
+
+    def test_no_camera(self):
+        self.assertRaises(NoCameraException, Camera(999))
 
 if __name__ == '__main__':
     unittest.main()
