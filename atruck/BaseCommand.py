@@ -1,8 +1,7 @@
 from abc import ABCMeta, abstractmethod
-import multiprocessing
 
 
-class BaseCommand(multiprocessing.Process):
+class BaseCommand(object):
     __metaclass__ = ABCMeta
 
     def __init__(self):
@@ -10,4 +9,8 @@ class BaseCommand(multiprocessing.Process):
 
     @abstractmethod
     def stop(self):
+        pass
+
+    @abstractmethod
+    def run(self):
         pass

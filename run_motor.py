@@ -1,7 +1,17 @@
 from ev3dev.auto import *
+import time
 
-m = Motor(OUTPUT_B)
-print("Test")
-m.run_timed(time_sp=20000, speed_sp=500)
-print("Test")
+s = InfraredSensor(INPUT_3)
+print("modes: ", s.modes)
+print("commands: ", s.commands)
+
+s.mode = 'IR-PROX'
+
+print("units: ", s.units)
+print("decimals: ", s.decimals)
+print("bin: ", s.bin_data_format)
+while True:
+    print("b: ", s.bin_data)
+    print("v: ", s.value())
+    time.sleep(1)
 

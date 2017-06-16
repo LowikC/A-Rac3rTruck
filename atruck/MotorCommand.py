@@ -1,17 +1,23 @@
 from BaseCommand import BaseCommand
 from ev3dev.ev3 import LargeMotor
 
-class MotorCommand(BaseCommand):
-    def __init__(self, motor, speed_sp, time_sp=None):
-        self.motor = LargeMotor(motor)
-        self.time_sp = time_sp
-        self.speed_sp = speed_sp
+
+class LargeMotorTimed(BaseCommand):
+    def __init__(self, uid, speed_rps, time_ms=None):
+        self.motor = LargeMotor(address=uid)
+        self.time_ms = time_ms
+        self.speed_sp = speed_rps * self.motor.count_per_rot
+        super(LargeMotorTimed, self).__init__()
 
     def stop(self):
-        pass
+        self.motor.stop()
+        self.motor.
 
     def run(self):
-        if self.time_sp is None:
-            self.motor.run_forever(speed_sp=)
-        self.motor.run_timed()
-        m.run_timed(time_sp=3000, speed_sp=500)
+        self.running = True
+        if self.time_ms is None:
+            self.motor.run_forever(speed_sp=self.speed_sp)
+        else:
+            self.motor.run_timed(speed_sp=self.speed_sp,
+                                 time_sp=self.time_ms)
+
