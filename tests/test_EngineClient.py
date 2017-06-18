@@ -14,7 +14,7 @@ if __name__ == '__main__' :
     url = "http://lowik.sytes.net"
     port = 53117
 
-    url_process = url + ":" + port + "/process"
+    url_process = url + ":" + str(port) + "/process"
 
     im_bgr = cv2.imread("/home/robot/im_1497641529.jpg")
     im_bgr = Image.fromarray(im_bgr)
