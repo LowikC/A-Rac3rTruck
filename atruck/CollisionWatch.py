@@ -12,9 +12,9 @@ class CollisionWatch(threading.Thread):
         Below a given distance threshold, we trigger a full stop.
         :param status: Shared TruckStatus.
         """
-        self.period_s = 0.5
-        self.distance_threshold = 3.0
-        self.time_below_threshold_s = 1.0
+        self.period_s = 0.2
+        self.distance_threshold = 5.0
+        self.time_below_threshold_s = 0.5
         self.time_above_threshold_s = 2.0
         self.ir_sensor = InfraredSensor(INPUT_4)
         self.ir_sensor.mode = InfraredSensor.MODE_IR_PROX
