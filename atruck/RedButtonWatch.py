@@ -12,8 +12,8 @@ class RedButtonWatch(threading.Thread):
         If yes, we set the status.over to True
         :param status: Shared TruckStatus.
         """
-        self.period_s = 0.5
-        self.min_pressed_time_s = 2.0
+        self.period_s = 0.2
+        self.min_pressed_time_s = 1.0
         self.touch = TouchSensor()
         self.last_pressed_time_s = None
         self.status = status
