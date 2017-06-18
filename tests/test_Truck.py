@@ -1,4 +1,5 @@
 import time
+from context import atruck
 from atruck.Truck import Truck
 from atruck.EngineClient import EngineClient
 
