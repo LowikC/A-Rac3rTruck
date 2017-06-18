@@ -30,6 +30,8 @@ class ProbeDaemon(multiprocessing.Process):
                     self.down_event.clear()
             except exceptions.ConnectionError:
                 self.down_event.set()
+            except exceptions.ReadTimeout:
+                self.down_event.set()
 
             time.sleep(self.period_s)
 
