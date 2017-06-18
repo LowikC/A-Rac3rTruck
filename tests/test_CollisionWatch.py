@@ -8,8 +8,8 @@ if __name__ == "__main__":
     cw = CollisionWatch(status)
     cw.start()
 
-    for _ in range(20):
+    for _ in range(500):
         print(status.collision)
-        time.sleep(1)
+        time.sleep(0.2)
 
     cw.join()
