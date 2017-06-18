@@ -1,6 +1,6 @@
 import time
 import multiprocessing
-from requests import get, codes
+from requests import get, codes, exceptions
 
 
 class ProbeDaemon(multiprocessing.Process):
@@ -15,16 +15,22 @@ class ProbeDaemon(multiprocessing.Process):
             .format(url=server_url, port=port, endpoint=endpoint)
         self.down_event = multiprocessing.Event()
         self.period_s = period_s
-        self.daemon = True
+        self.timeout = 0.2
         super(ProbeDaemon, self).__init__()
+        # It seems we need to set the value after the call to base class __init__
+        self.daemon = True
 
     def run(self):
         while True:
-            probe = get(self.probe_url)
-            if probe.status_code != codes.ok:
+            try:
+                probe = get(self.probe_url, timeout=self.timeout)
+                if probe.status_code != codes.ok:
+                    self.down_event.set()
+                else:
+                    self.down_event.clear()
+            except exceptions.ConnectionError:
                 self.down_event.set()
-            else:
-                self.down_event.clear()
+
             time.sleep(self.period_s)
 
     def up(self):
