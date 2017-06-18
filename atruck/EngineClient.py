@@ -1,7 +1,6 @@
 import cStringIO
 from requests import post, codes
 from PIL import Image
-import urlparse
 from ProbeDaemon import ProbeDaemon
 from CommandFactory import CommandFactory
 
