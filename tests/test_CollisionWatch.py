@@ -11,3 +11,5 @@ if __name__ == "__main__":
     for _ in range(20):
         print(status.collision)
         time.sleep(1)
+
+    cw.join()
