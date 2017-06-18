@@ -1,9 +1,13 @@
-import multiprocessing
+import threading
 
 
 class TruckStatus(object):
     def __init__(self, **kwargs):
-        self.lock = multiprocessing.Lock()
+        """
+        Thread safe structure to share the truck status (speed, position, ...)
+        :param kwargs: 
+        """
+        self.lock = threading.Lock()
         self._over = kwargs.get("over", False)
         self._collision = kwargs.get("collision", False)
 

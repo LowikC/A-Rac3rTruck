@@ -1,9 +1,9 @@
 import time
-import multiprocessing
+import threading
 from requests import get, codes, exceptions
 
 
-class ProbeDaemon(multiprocessing.Process):
+class ProbeDaemon(threading.Thread):
     def __init__(self, server_url, port, endpoint="/probe", period_s=1):
         """
         Probe a given server, and set down_event if the server doesn't respond.
@@ -13,7 +13,7 @@ class ProbeDaemon(multiprocessing.Process):
         """
         self.probe_url = "{url}:{port}{endpoint}"\
             .format(url=server_url, port=port, endpoint=endpoint)
-        self.down_event = multiprocessing.Event()
+        self.down_event = threading.Event()
         self.period_s = period_s
         self.timeout = 0.2
         super(ProbeDaemon, self).__init__()
