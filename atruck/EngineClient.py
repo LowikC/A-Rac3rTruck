@@ -21,6 +21,7 @@ class EngineClient(object):
             .format(url=server_url, port=port, endpoint=endpoint)
         self.probe = ProbeDaemon(server_url, port)
         self.probe.start()
+        logging.debug("EngineClient running")
 
     def get_command(self, im_bgr, timestamp_s, status):
         logging.debug("Get command client")

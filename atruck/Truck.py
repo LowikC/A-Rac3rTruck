@@ -11,7 +11,7 @@ class Truck(object):
     def __init__(self, engine):
         self.sleep_time_s = 0.01
         self.status = TruckStatus()
-        self.camera_images = Queue(maxsize=4)
+        self.camera_images = Queue(maxsize=2)
         self.camera_streamer = CameraStreamer(self.camera_images, device_id=0)
         self.camera_streamer.start()
         self.red_button_watch = RedButtonWatch(self.status)
