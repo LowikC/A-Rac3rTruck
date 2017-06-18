@@ -1,51 +1,39 @@
+import time
+import logging
 from Queue import Queue
 from CameraStreamer import CameraStreamer
+from RedButtonWatch import RedButtonWatch
+from CollisionWatch import CollisionWatch
 from TruckStatus import TruckStatus
 
 
 class Truck(object):
     def __init__(self, engine):
+        self.sleep_time_s = 0.01
+        self.status = TruckStatus()
         self.camera_images = Queue(maxsize=4)
         self.camera_streamer = CameraStreamer(self.camera_images, device_id=0)
         self.camera_streamer.start()
-        self.status = TruckStatus()
+        self.red_button_watch = RedButtonWatch(self.status)
+        self.red_button_watch.start()
+        self.collision_watch = CollisionWatch(self.status)
+        self.collision_watch.start()
         self.engine = engine
-        self.current_cmd_id = 0
-        self.running_commands = dict()  # cmd_id -> process
 
     def run(self):
+        logging.debug("Truck start running")
         while not self.status.over:
             im_bgr, timestamp_s = self.camera_images.get(block=True, timeout=1)
             command = self.engine.get_command(im_bgr, timestamp_s, self.status)
-            self.add_command(command)
+            logging.debug("Received command: \n", command)
+            command.run(self.status)
+            time.sleep(self.sleep_time_s)
 
         self.stop_all()
 
-    def add_command(self, command):
-        self.stop_conflicts(command)
-        command.start()
-        self.running_commands[self.current_cmd_id] = command
-        self.current_cmd_id += 1
-
-    def stop_conflicts(self, command):
-        commands_ids_to_remove = []
-        for cmd_id, previous_cmd in self.running_commands.items():
-            if not previous_cmd.is_alive():
-                commands_ids_to_remove.append(cmd_id)
-            if command.conflicts(previous_cmd):
-                previous_cmd.stop()
-
-        for cmd_id in commands_ids_to_remove:
-            self.running_commands[cmd_id].join()
-            self.running_commands.pop(cmd_id)
-
     def stop_all(self):
-        for cmd_id, previous_cmd in self.running_commands.items():
-            previous_cmd.stop()
-
-        for cmd_id, previous_cmd in self.running_commands.items():
-            previous_cmd.join()
-
+        logging.debug("Stopping...")
+        self.red_button_watch.join()
+        self.collision_watch.join()
         self.camera_streamer.join()
-
-
+        logging.debug("All threads joined")

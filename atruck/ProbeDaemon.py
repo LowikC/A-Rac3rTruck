@@ -1,18 +1,18 @@
 import time
 import multiprocessing
-import urlparse
 from requests import get, codes
 
 
 class ProbeDaemon(multiprocessing.Process):
-    def __init__(self, server_url, endpoint="/probe", period_s=1):
+    def __init__(self, server_url, port, endpoint="/probe", period_s=1):
         """
         Probe a given server, and set down_event if the server doesn't respond.
         :param server_url: URL of the server
         :param endpoint: Endpoint on the server for probing
         :param period_s: Time between 2 probes
         """
-        self.probe_url = urlparse.urljoin(server_url, endpoint)
+        self.probe_url = "{url}:{port}{endpoint}"\
+            .format(url=server_url, port=port, endpoint=endpoint)
         self.down_event = multiprocessing.Event()
         self.period_s = period_s
         self.daemon = True

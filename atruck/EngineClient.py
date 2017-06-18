@@ -1,10 +1,9 @@
 import cStringIO
 from requests import post, codes
 from PIL import Image
-import multiprocessing
 import urlparse
 from ProbeDaemon import ProbeDaemon
-from TruckCommand import TruckCommand
+from CommandFactory import CommandFactory
 
 
 class NoServerException(Exception):
@@ -16,10 +15,10 @@ class FailedRequestException(Exception):
 
 
 class EngineClient(object):
-    def __init__(self, server_url, endpoint="/process"):
-        self.process_url = urlparse.urljoin(server_url, endpoint)
-
-        self.probe = ProbeDaemon(server_url)
+    def __init__(self, server_url, port, endpoint="/process"):
+        self.process_url = "{url}:{port}{endpoint}"\
+            .format(url=server_url, port=port, endpoint=endpoint)
+        self.probe = ProbeDaemon(server_url, port)
         self.probe.start()
 
     def get_command(self, im_bgr, timestamp_s, status):
@@ -30,9 +29,10 @@ class EngineClient(object):
         request_data = self.get_request_data(status, timestamp_s)
         request = post(self.process_url, data=request_data, files=request_files)
         if request.status_code != codes.ok:
-            raise FailedRequestException()
+            raise FailedRequestException("Response: {r}".format(r=request.text))
 
-        return TruckCommand(**request.json())
+        cmd = request.json()
+        return CommandFactory.from_dict(cmd)
 
     @staticmethod
     def get_request_files(im_bgr):
@@ -46,8 +46,5 @@ class EngineClient(object):
     def get_request_data(status, timestamp_s):
         data = dict()
         data["image_timestamp_ms"] = int(timestamp_s * 1000)
-        data["motor_speed"] = status.motor_speed
+        data["status"] = status.to_dict()
         return data
-
-
-
