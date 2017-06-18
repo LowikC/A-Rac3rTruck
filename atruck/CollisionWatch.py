@@ -43,7 +43,7 @@ class CollisionWatch(threading.Thread):
                     FullStop().run(self.status)
                     logging.info("Collision detected - Full stop")
             elif self.status.collision and self.last_above_threshold_time_s is not None:
-                elapsed_time_s = time.time() - self.last_below_threshold_time_s
+                elapsed_time_s = time.time() - self.last_above_threshold_time_s
                 if elapsed_time_s >= self.time_above_threshold_s:
                     self.status.collision = False
                     logging.info("Collision avoided - collision flag to false")
