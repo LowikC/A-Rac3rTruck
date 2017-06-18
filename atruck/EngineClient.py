@@ -1,4 +1,6 @@
 import cStringIO
+import logging
+import cv2
 from requests import post, codes
 from PIL import Image
 from ProbeDaemon import ProbeDaemon
@@ -24,13 +26,16 @@ class EngineClient(object):
         if not self.probe.up():
             raise NoServerException("Server {url} not available".format(url=self.process_url))
 
+        cv2.imwrite("/home/robot/test.jpg", im_bgr)
         request_files = self.get_request_files(im_bgr)
         request_data = self.get_request_data(status, timestamp_s)
+        logging.info("Request data: ", request_data)
         request = post(self.process_url, data=request_data, files=request_files)
         if request.status_code != codes.ok:
             raise FailedRequestException("Response: {r}".format(r=request.text))
 
         cmd = request.json()
+        logging.info("Received json: ", cmd)
         return CommandFactory.from_dict(cmd)
 
     @staticmethod
