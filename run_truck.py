@@ -7,6 +7,7 @@ if __name__ == "__main__":
     logging.basicConfig(format=log_format, filename="/home/robot/atruck/logs/log", level=logging.DEBUG)
 
     engine = EngineClient(server_url="http://lowik.sytes.net", port=53117)
+    logging.debug("Engine created")
     truck = Truck(engine)
     logging.info("Starting truck")
     truck.run()

@@ -23,6 +23,7 @@ class EngineClient(object):
         self.probe.start()
 
     def get_command(self, im_bgr, timestamp_s, status):
+        logging.debug("Get command client")
         if not self.probe.up():
             raise NoServerException("Server {url} not available".format(url=self.process_url))
 
