@@ -24,10 +24,11 @@ class EngineClient(object):
         logging.debug("EngineClient running")
 
     def get_command(self, im_bgr, timestamp_s, status):
-        if not self.probe.up():
-            raise NoServerException("Server {url} not available".format(url=self.process_url))
-
         try:
+            if not self.probe.up():
+                logging.error("Server seems down")
+                raise NoServerException("Server {url} not available".format(url=self.process_url))
+
             im_buffer = self.get_im_buffer(im_bgr)
             json_data = self.get_data_json(status, timestamp_s)
             files = {'file': im_buffer, 'data': json_data}
