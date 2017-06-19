@@ -1,5 +1,6 @@
 import os
 import cv2
+import logging
 from GreenFlag import GreenFlag
 from cvision_utils import median_hsv
 from ReadyCommand import description as ready_command_desc
@@ -21,7 +22,7 @@ class Engine(object):
         im_hsv = median_hsv(im_bgr)
 
         if not status.go:
-            # Truck not started, check for green flag
+            logging.info("Truck not started, check for green flag")
             (ready, go) = self.green_flag.update(im_hsv)
             if ready:
                 return {
@@ -30,9 +31,12 @@ class Engine(object):
             elif go:
                 return {"cmd": go_command_desc,
                         "status": status.to_dict()}
+            else:
+                return {"cmd": no_command_desc,
+                        "status": status.to_dict()}
 
         elif not status.collision and not status.over:
-            # Truck is not stopped, apply usual process
+            logging.info("Truck is not stopped, apply usual process")
             cmd = {
                 "name": "StraightRun",
                 "kwargs": {"speed_rps": 1, "time_ms": 4000}
@@ -41,7 +45,7 @@ class Engine(object):
             return {"cmd": cmd,
                     "status": status.to_dict()}
         else:
-            # Truck is stopped, do nothing
+            logging.info("Truck is stopped, do nothing")
             return {"cmd": no_command_desc,
                     "status": status.to_dict()}
 

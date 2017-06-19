@@ -17,7 +17,8 @@ class ProbeDaemon(threading.Thread):
         self.period_s = period_s
         self.timeout = 0.2
         super(ProbeDaemon, self).__init__()
-        # It seems we need to set the value after the call to base class __init__
+        # It seems we need to set the value after the call to
+        # base class __init__
         self.daemon = True
 
     def run(self):
