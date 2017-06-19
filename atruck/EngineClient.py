@@ -35,9 +35,11 @@ class EngineClient(object):
         if request.status_code != codes.ok:
             raise FailedRequestException("Response: {r}".format(r=request.text))
 
-        cmd = request.json()
-        logging.info("Received json: ", cmd)
-        return CommandFactory.from_dict(cmd)
+        response = request.json()
+        logging.info("Received json: {r}".format(r=response))
+        if "cmd" in response:
+            return CommandFactory.from_dict(response["cmd"])
+        return None
 
     @staticmethod
     def get_im_buffer(im_bgr):
@@ -49,14 +51,7 @@ class EngineClient(object):
 
     @staticmethod
     def get_data_json(status, timestamp_s):
-        data = {
-            "image_timestamp_ms": int(timestamp_s * 1000),
-            "status": {
-                "over": False,
-                "collision": False
-            }
-        }
-        #data = dict()
-        #data["image_timestamp_ms"] = int(timestamp_s * 1000)
-        #data["status"] = status.to_dict()
+        data = dict()
+        data["image_timestamp_ms"] = int(timestamp_s * 1000)
+        data["status"] = status.to_dict()
         return json.dumps(data)

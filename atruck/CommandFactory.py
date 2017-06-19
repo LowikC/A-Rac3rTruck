@@ -2,7 +2,7 @@ import importlib
 import logging
 
 
-class UnknownArgType(Exception):
+class InvalidCommandDict(Exception):
     pass
 
 
@@ -19,6 +19,10 @@ class CommandFactory(object):
         The kwargs must contains the parameters to instantiate this class.
         :return: A TruckCommand corresponding to the description
         """
+        if "name" not in cmd or "kwargs" not in cmd:
+            raise InvalidCommandDict("{c} misses mandatory fields"
+                                     .format(c=cmd))
+
         name = cmd["name"]
         kwargs = cmd["kwargs"]
         logging.debug("Command name: ", name)
