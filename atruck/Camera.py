@@ -26,8 +26,8 @@ class Camera(object):
         Return the next image in the camera stream, with its timestamp
         :return: An ndarray HxWx3 for the image and the timestamp in seconds
         """
-        timestamp_s = time.time()
         success, image = self.camera.read()
+        timestamp_s = time.time()
         if not success or image is None:
             raise NoImageException()
 
