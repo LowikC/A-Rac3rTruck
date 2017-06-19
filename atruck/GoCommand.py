@@ -1,6 +1,8 @@
 from TruckCommand import TruckCommand
 from ev3dev.ev3 import Sound
 
+description = {"name": "GoCommand", "kwargs": {}}
+
 
 class ReadyCommand(TruckCommand):
     def __init__(self):
