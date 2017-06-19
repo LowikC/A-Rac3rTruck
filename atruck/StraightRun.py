@@ -12,8 +12,8 @@ class StraightRun(TruckCommand):
         self.left_motor = LargeMotor(address=OUTPUT_B)
         self.right_motor = LargeMotor(address=OUTPUT_C)
         self.time_ms = time_ms
-        self.left_speed_sp = speed_rps * self.left_motor.count_per_rot
-        self.right_speed_sp = speed_rps * self.right_motor.count_per_rot
+        self.left_speed_sp = -speed_rps * self.left_motor.count_per_rot
+        self.right_speed_sp = -speed_rps * self.right_motor.count_per_rot
         super(StraightRun, self).__init__()
 
     def stop(self):
