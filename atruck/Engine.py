@@ -9,7 +9,7 @@ class Engine(object):
         cv2.imwrite("/home/robot/{tms}.jpg".format(tms=timestamp_ms), im_bgr)
         cmd = {
             "name": "StraightRun",
-            "kwargs": {"speed_rps": 1, "time_ms": 2000}
+            "kwargs": {"speed_rps": 1, "time_ms": 4000}
         }
 
         return {"cmd": cmd,

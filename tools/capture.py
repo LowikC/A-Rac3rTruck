@@ -6,7 +6,7 @@ from atruck.CameraStreamer import CameraStreamer
 
 
 if __name__ == "__main__":
-    camera_images = Queue(maxsize=4)
+    camera_images = Queue(maxsize=2)
     camera_streamer = CameraStreamer(camera_images, device_id=0)
     camera_streamer.start()
 
