@@ -35,5 +35,6 @@ if __name__ == '__main__' :
     files = {'file': im_buffer, 'data': json.dumps(data)}
     start_s = time.time()
     r = post(url_process, files=files)
-    print("Request took {t:.1f} ms".format(t=(time.time() - start_s) * 1000))
+    stop_s = time.time()
+    print("Request took {t:.1f} ms".format(t=(stop_s - start_s) * 1000))
     print 'Response from the server: \n{text}'.format(text=r.json())
