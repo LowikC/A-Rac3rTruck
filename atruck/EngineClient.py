@@ -30,10 +30,8 @@ class EngineClient(object):
 
         im_buffer = self.get_im_buffer(im_bgr)
         json_data = self.get_data_json(status, timestamp_s)
-        request = post(self.process_url,
-                       files={'file': im_buffer,
-                              'data': json_data}
-                       )
+        files = {'file': im_buffer, 'data': json_data}
+        request = post(self.process_url, files=files)
         if request.status_code != codes.ok:
             raise FailedRequestException("Response: {r}".format(r=request.text))
 
@@ -51,7 +49,14 @@ class EngineClient(object):
 
     @staticmethod
     def get_data_json(status, timestamp_s):
-        data = dict()
-        data["image_timestamp_ms"] = int(timestamp_s * 1000)
-        data["status"] = status.to_dict()
+        data = {
+            "image_timestamp_ms": int(timestamp_s * 1000),
+            "status": {
+                "over": False,
+                "collision": False
+            }
+        }
+        #data = dict()
+        #data["image_timestamp_ms"] = int(timestamp_s * 1000)
+        #data["status"] = status.to_dict()
         return json.dumps(data)
