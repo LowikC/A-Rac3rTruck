@@ -14,7 +14,7 @@ class CameraStreamer(threading.Thread):
         self.exit = threading.Event()
         self.camera = Camera(device_id)
         self.images_queue = images_queue
-        self.time_between_frame_s = 0.002
+        self.time_between_frame_s = 0.001
         super(CameraStreamer, self).__init__()
 
     def run(self):
