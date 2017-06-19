@@ -26,5 +26,7 @@ class CommandFactory(object):
         name = cmd["name"]
         kwargs = cmd["kwargs"]
         logging.debug("Command name: ", name)
-        TruckCommandSubClass = getattr(importlib.import_module(name), name)
+        TruckCommandSubClass = getattr(
+            importlib.import_module("atruck." + name),
+            name)
         return TruckCommandSubClass(**kwargs)
