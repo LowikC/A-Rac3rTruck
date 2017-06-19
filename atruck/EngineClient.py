@@ -37,9 +37,7 @@ class EngineClient(object):
 
         response = request.json()
         logging.info("Received json: {r}".format(r=response))
-        if "cmd" in response:
-            return CommandFactory.from_dict(response["cmd"])
-        return None
+        return CommandFactory.from_dict(response["cmd"])
 
     @staticmethod
     def get_im_buffer(im_bgr):

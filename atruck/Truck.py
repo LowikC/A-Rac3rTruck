@@ -27,7 +27,6 @@ class Truck(object):
             im_bgr, timestamp_s = self.camera_images.get(block=True, timeout=1)
             logging.debug("Got image, ts={t}".format(t=timestamp_s))
             command = self.engine.get_command(im_bgr, timestamp_s, self.status)
-            logging.debug("Received command: \n{cmd}".format(command))
             command.run(self.status)
             time.sleep(self.sleep_time_s)
 
