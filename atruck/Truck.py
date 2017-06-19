@@ -24,7 +24,7 @@ class Truck(object):
     def run(self):
         logging.debug("Truck start running")
         while not self.status.over:
-            im_bgr, timestamp_s = self.camera_images.get(block=True, timeout=1)
+            im_bgr, timestamp_s = self.camera_images.get(block=True, timeout=5)
             logging.debug("Got image, ts={t}".format(t=timestamp_s))
             command = self.engine.get_command(im_bgr, timestamp_s, self.status)
             command.run(self.status)
