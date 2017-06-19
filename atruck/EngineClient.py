@@ -45,7 +45,7 @@ class EngineClient(object):
         im_buffer = cStringIO.StringIO()
         pil_image.save(im_buffer, format='JPEG')
         im_buffer.seek(0)
-        return {'file': im_buffer}
+        return im_buffer
 
     @staticmethod
     def get_data_json(status, timestamp_s):
