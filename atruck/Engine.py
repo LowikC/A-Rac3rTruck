@@ -25,13 +25,16 @@ class Engine(object):
             logging.info("Truck not started, check for green flag")
             (ready, go) = self.green_flag.update(im_hsv)
             if ready:
+                logging.info("Return ready command")
                 return {
                     "cmd": ready_command_desc,
                     "status": status.to_dict()}
             elif go:
+                logging.info("Return Go command")
                 return {"cmd": go_command_desc,
                         "status": status.to_dict()}
             else:
+                logging.info("Return No command")
                 return {"cmd": no_command_desc,
                         "status": status.to_dict()}
 

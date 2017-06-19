@@ -5,7 +5,7 @@ from requests import post, codes
 from PIL import Image
 from ProbeDaemon import ProbeDaemon
 from CommandFactory import CommandFactory
-
+from NoCommand import NoCommand
 
 class NoServerException(Exception):
     pass
@@ -24,20 +24,23 @@ class EngineClient(object):
         logging.debug("EngineClient running")
 
     def get_command(self, im_bgr, timestamp_s, status):
-        logging.debug("Get command client")
         if not self.probe.up():
             raise NoServerException("Server {url} not available".format(url=self.process_url))
 
-        im_buffer = self.get_im_buffer(im_bgr)
-        json_data = self.get_data_json(status, timestamp_s)
-        files = {'file': im_buffer, 'data': json_data}
-        request = post(self.process_url, files=files)
-        if request.status_code != codes.ok:
-            raise FailedRequestException("Response: {r}".format(r=request.text))
+        try:
+            im_buffer = self.get_im_buffer(im_bgr)
+            json_data = self.get_data_json(status, timestamp_s)
+            files = {'file': im_buffer, 'data': json_data}
+            request = post(self.process_url, files=files)
+            if request.status_code != codes.ok:
+                raise FailedRequestException("Response: {r}".format(r=request.text))
 
-        response = request.json()
-        logging.info("Received json: {r}".format(r=response))
-        return CommandFactory.from_dict(response["cmd"])
+            response = request.json()
+            logging.info("Received json: {r}".format(r=response))
+            return CommandFactory.from_dict(response["cmd"])
+        except Exception as err:
+            logging.error("Issue in the request: {err}".format(err=err))
+            return NoCommand()
 
     @staticmethod
     def get_im_buffer(im_bgr):
