@@ -6,8 +6,9 @@ from TruckMotors import direction_motor
 
 class CalibrateDirection(TruckCommand):
     def __init__(self):
+        self.motor = direction_motor
         self.speed_rps = 2
-        self.speed_countps = direction_motor.count_per_rot * self.speed_rps
+        self.speed_countps = self.motor.count_per_rot * self.speed_rps
         # For unit test
         self.zero_position = None
         super(CalibrateDirection, self).__init__()
@@ -24,28 +25,28 @@ class CalibrateDirection(TruckCommand):
         time_wait_s = time_ms * 1.8 / 1000
 
         logging.debug("Run direction to the right, until it blocks")
-        direction_motor.run_timed(speed_sp=self.speed_countps, time_sp=time_ms)
+        self.motor.run_timed(speed_sp=self.speed_countps, time_sp=time_ms)
         time.sleep(time_wait_s)
-        right_pos = direction_motor.position
+        right_pos = self.motor.position
 
         logging.debug("Run direction to the left, until it blocks")
-        direction_motor.run_timed(speed_sp=-self.speed_countps, time_sp=time_ms)
+        self.motor.run_timed(speed_sp=-self.speed_countps, time_sp=time_ms)
         time.sleep(time_wait_s)
-        left_pos = direction_motor.position
+        left_pos = self.motor.position
 
         total = abs(left_pos - right_pos)
         self.zero_position = int(round(min(left_pos, right_pos) + total/2))
 
         logging.debug("Run to zero position + an offset to overshoot slightly")
         offset = 10
-        direction_motor.run_to_abs_pos(speed_sp=self.speed_countps,
+        self.motor.run_to_abs_pos(speed_sp=self.speed_countps,
                                   position_sp=self.zero_position + offset)
         time.sleep(time_wait_s)
 
         logging.debug("Run to exact zero position")
-        direction_motor.run_to_abs_pos(speed_sp=self.speed_countps/2,
+        self.motor.run_to_abs_pos(speed_sp=self.speed_countps/2,
                                   position_sp=self.zero_position)
         time.sleep(time_wait_s * 2)
 
         logging.debug("Reset motor, so that current position is 0")
-        direction_motor.reset()
+        self.motor.reset()
