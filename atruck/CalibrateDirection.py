@@ -24,7 +24,7 @@ class CalibrateDirection(TruckCommand):
         center_pos = int(round(left_pos + total/2))
 
         self.motor.run_to_abs_pos(position_sp=center_pos)
-        self.sleep(2)
+        time.sleep(2)
         self.motor.reset()
 
 
