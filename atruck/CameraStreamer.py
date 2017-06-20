@@ -4,15 +4,16 @@ from Camera import Camera, NoImageException
 
 
 class CameraStreamer(threading.Thread):
-    def __init__(self, images_queue, device_id=0):
+    def __init__(self, images_queue, device_id=0, resolution=(640, 480)):
         """
         Process that will capture images from a video device and store them in a queue.
         When the queue is full, the oldest image is discarded.
         :param images_queue: Queue that will store the captured images and their timestamp.
         :param device_id: Id of the camera device used to grab images.
+        :param resolution: Camera resolution (width, height).
         """
         self.exit = threading.Event()
-        self.camera = Camera(device_id)
+        self.camera = Camera(device_id, resolution)
         self.images_queue = images_queue
         self.time_between_frame_s = 0.001
         super(CameraStreamer, self).__init__()
