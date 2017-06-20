@@ -9,8 +9,8 @@ class TestCalibrateDirection(unittest.TestCase):
         # Run two calibrations,
         # the second one should find the same zero position
         cd = CalibrateDirection()
-        cd.run()
-        cd.run()
+        cd.run(None)
+        cd.run(None)
         tolerance = 5
         self.assertLess(abs(cd.zero_position), tolerance)
 
