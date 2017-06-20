@@ -15,7 +15,7 @@ if __name__ == "__main__":
         n_loops = 10
         start_s = time.time()
         for i in xrange(n_loops):
-            _ = median_hsv(im_bgr, blur_size=5)
+            _ = median_hsv(im_bgr, blur_size=blur_size)
         elapsed_s = (time.time() - start_s) / n_loops
 
         print("{b} - Average time: {t} [ms]"
