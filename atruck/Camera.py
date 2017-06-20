@@ -20,9 +20,9 @@ class Camera(object):
         if not self.camera.isOpened():
             raise NoCameraException("Can't open device {d}".format(d=device_id))
 
-        ret = self.camera.set(cv2.CAP_PROP_FRAME_WIDTH, resolution[0])
+        ret = self.camera.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, resolution[0])
         print(ret)
-        self.camera.set(cv2.CAP_PROP_FRAME_HEIGHT, resolution[1])
+        self.camera.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, resolution[1])
         _ = self.next_image()  # Grab a frame to initialize
 
     def next_image(self):
