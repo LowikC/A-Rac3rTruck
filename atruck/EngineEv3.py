@@ -10,9 +10,9 @@ from NoCommand import NoCommand
 
 
 class EngineEv3(object):
-    def __init__(self):
-        self.upload_dir = "/home/robot/atruck/data/tmp/"
-        if not os.path.exists(self.upload_dir):
+    def __init__(self, upload_dir=None):
+        self.upload_dir = upload_dir
+        if upload_dir and not os.path.exists(self.upload_dir):
             os.makedirs(self.upload_dir)
 
         self.green_flag = GreenFlag()
@@ -44,6 +44,8 @@ class EngineEv3(object):
             return NoCommand()
 
     def save_image(self, im_bgr, timestamp_s):
+        if self.upload_dir is None:
+            return
         timestamp_ms = int(round(timestamp_s * 1000))
         cv2.imwrite(os.path.join(self.upload_dir,
                                  "{tms}.jpg".format(tms=timestamp_ms)),

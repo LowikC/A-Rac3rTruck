@@ -29,12 +29,16 @@ if __name__ == "__main__":
         description='Start Autonomous Rac3r Truck')
     parser.add_argument('--log',
                         type=str, default="/home/robot/atruck/logs/log",
-                        help='Path to log file.')
+                        help="Path to log file.")
+    parser.add_argument('--upload_dir',
+                        type=str, default=None,
+                        help="Path to save images from camera. "
+                             "If None, we won't save images")
     args = parser.parse_args()
 
     setup_logging(args.log)
 
-    engine = EngineLocal()
+    engine = EngineLocal(args.save_dir)
     logging.debug("Engine created")
     truck = Truck(engine)
     logging.info("Starting truck")
