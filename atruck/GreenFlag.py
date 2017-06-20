@@ -73,8 +73,9 @@ class GreenFlag(object):
 
         self._im_labels, n_labels = measure.label(mask, background=0,
                                                   return_num=True)
+        print(np.min(self._im_labels))
         self._labels_sizes = np.bincount(
-            self._im_labels.astype(np.uint32).ravel())
+            self._im_labels.ravel())
         im_size = mask.shape[0] * mask.shape[1]
         for label in xrange(1, n_labels + 1):
             if not self._valid_size(label, im_size):
