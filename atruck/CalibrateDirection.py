@@ -28,6 +28,6 @@ class CalibrateDirection(TruckCommand):
         print(total)
         self.zero_position = int(round(min(left_pos, right_pos) + total/2))
         print(self.zero_position)
-        self.motor.run_to_abs_pos(speed_sp=100, position_sp=self.zero_position)
+        self.motor.run_to_abs_pos(speed_sp=300, position_sp=self.zero_position)
         time.sleep(3)
         self.motor.reset()
