@@ -1,3 +1,4 @@
+import logging
 from TruckCommand import TruckCommand
 from ev3dev.ev3 import Sound
 
@@ -9,6 +10,7 @@ class ReadyCommand(TruckCommand):
         super(ReadyCommand, self).__init__()
 
     def run(self, status):
+        logging.info("Run ready command")
         status.ready = True
         Sound.speak("Ready!")
 

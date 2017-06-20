@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 
-def median_hsv(im_bgr, blur_size=9):
+def median_hsv(im_bgr, blur_size=0):
     im_med = im_bgr
     if blur_size > 0:
         im_med = cv2.medianBlur(im_bgr, blur_size)

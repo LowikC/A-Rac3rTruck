@@ -1,3 +1,4 @@
+import logging
 from TruckCommand import TruckCommand
 from ev3dev.ev3 import Sound
 
@@ -9,6 +10,7 @@ class GoCommand(TruckCommand):
         super(GoCommand, self).__init__()
 
     def run(self, status):
+        logging.info("Run go command")
         status.go = True
         Sound.speak("Go!")
 
