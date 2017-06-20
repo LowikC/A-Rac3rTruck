@@ -22,7 +22,7 @@ class TestCamera(unittest.TestCase):
         with self.assertRaises(NoCameraException) as context:
             _ = Camera(999)
 
-        self.assertTrue("Broken" in context.exception)
+        print(context.exception)
 
 if __name__ == '__main__':
     unittest.main()
