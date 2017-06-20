@@ -20,7 +20,7 @@ class CalibrateDirection(TruckCommand):
         # We want to turn by at most n_rots rotations
         # Then multiply by 2 to be sure it will block
         n_rots = 1
-        time_ms = n_rots / self.speed_rps * 2
+        time_ms = (n_rots / self.speed_rps * 2) * 1000
         # Sleep for the same time + 20% margin
         time_wait_s = time_ms * 1.2 / 1000
 
