@@ -2,6 +2,7 @@ import unittest
 import os
 import numpy as np
 import cv2
+import time
 from context import atruck
 from atruck.GreenFlag import GreenFlag, GREEN_HSV
 from atruck.cvision_utils import median_hsv
@@ -77,6 +78,22 @@ class TestGreenFlag(unittest.TestCase):
         im_hsv = median_hsv(im_bgr)
         green_flag = GreenFlag()
         self.assertFalse(green_flag._contains_green_flag(im_hsv))
+
+    def test_detect_time_160x120(self):
+        current_dir = os.path.dirname(os.path.realpath(__file__))
+        im_bgr = cv2.imread(os.path.join(current_dir,
+                                         "data/GreenFlag_with_flag.jpg"))
+        im_bgr = cv2.resize(im_bgr, (160, 120), interpolation=cv2.INTER_LINEAR)
+        im_hsv = median_hsv(im_bgr)
+        green_flag = GreenFlag()
+
+        n_loops = 10
+        start_s = time.time()
+        for _ in xrange(n_loops):
+            _ = green_flag._contains_green_flag(im_hsv)
+        elapsed_s = (time.time() - start_s)/n_loops
+
+        self.assertLess(elapsed_s, 0.5)
 
 
 if __name__ == '__main__':
