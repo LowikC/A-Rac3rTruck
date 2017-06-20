@@ -1,5 +1,5 @@
 from TruckCommand import TruckCommand
-from ev3dev.ev3 import LargeMotor, OUTPUT_B, OUTPUT_C
+from TruckMotors import left_motor, right_motor
 
 
 class StraightRun(TruckCommand):
@@ -9,8 +9,8 @@ class StraightRun(TruckCommand):
         :param speed_rps: Desired speed in rotations per second.
         :param time_ms: Desired time to run. If None, will run forever.
         """
-        self.left_motor = LargeMotor(address=OUTPUT_B)
-        self.right_motor = LargeMotor(address=OUTPUT_C)
+        self.left_motor = left_motor
+        self.right_motor = right_motor
         self.time_ms = time_ms
         self.left_speed_sp = -speed_rps * self.left_motor.count_per_rot
         self.right_speed_sp = -speed_rps * self.right_motor.count_per_rot
