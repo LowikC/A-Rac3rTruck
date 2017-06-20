@@ -6,9 +6,9 @@ from atruck.Camera import Camera, NoCameraException
 
 class TestCamera(unittest.TestCase):
     def test_resolution(self):
-        cam = Camera()
+        cam = Camera(device_id=0, resolution=(320, 240))
         im, ts = cam.next_image()
-        self.assertEquals((480, 640, 3), im.shape)
+        self.assertEquals((240, 320, 3), im.shape)
 
     def test_multiget(self):
         cam = Camera()
@@ -19,7 +19,12 @@ class TestCamera(unittest.TestCase):
             time.sleep(0.5)
 
     def test_no_camera(self):
-        self.assertRaises(NoCameraException, Camera(999))
+        try:
+            cam = Camera(999)
+        except NoCameraException:
+            self.assertTrue(True)
+            return
+        self.assertTrue(False)
 
 if __name__ == '__main__':
     unittest.main()
