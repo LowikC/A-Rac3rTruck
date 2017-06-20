@@ -73,7 +73,9 @@ class GreenFlag(object):
 
         self._im_labels, n_labels = measure.label(mask, background=0,
                                                   return_num=True)
-        print(np.min(self._im_labels))
+        # background is labelled with -1, and other label starts at 0
+        # for np.bincount, we want values >= 0
+        self._im_labels += 1
         self._labels_sizes = np.bincount(
             self._im_labels.ravel())
         im_size = mask.shape[0] * mask.shape[1]
