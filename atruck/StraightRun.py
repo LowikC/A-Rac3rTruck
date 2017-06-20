@@ -23,7 +23,6 @@ class StraightRun(TruckCommand):
     def run(self, status):
         if status.over or status.collision:
             return
-
         if self.time_ms is None:
             self.left_motor.run_forever(speed_sp=self.left_speed_sp)
             self.right_motor.run_forever(speed_sp=self.right_speed_sp)

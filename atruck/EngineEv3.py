@@ -18,6 +18,7 @@ class EngineEv3(object):
         self.green_flag = GreenFlag()
 
     def get_command(self, im_bgr, timestamp_s, status):
+        logging.info("Processing {ts}".format(ts=timestamp_s))
         self.save_image(im_bgr, timestamp_s)
         if not status.go:
             logging.debug("Truck not started, check for green flag")

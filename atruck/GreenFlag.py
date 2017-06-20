@@ -11,8 +11,8 @@ class GreenFlag(object):
         self._area_min = 6000
         self._area_max = 64000
         self._area_filled_ratio_min = 0.85
-        self._min_frames_ready = 2
-        self._min_frames_go = 2
+        self._min_frames_ready = 1
+        self._min_frames_go = 1
 
         self._im_labels = None
         self._labels_sizes = None
