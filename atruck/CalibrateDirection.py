@@ -7,7 +7,7 @@ from TruckMotors import direction_motor
 class CalibrateDirection(TruckCommand):
     def __init__(self):
         self.motor = direction_motor
-        self.speed_rps = 2
+        self.speed_rps = 1.8
         self.speed_countps = self.motor.count_per_rot * self.speed_rps
         # For unit test
         self.zero_position = None

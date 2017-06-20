@@ -1,6 +1,7 @@
 import cv2
 from Queue import Queue
 import os
+import time
 import argparse
 from sys import stdout
 
@@ -44,5 +45,6 @@ if __name__ == "__main__":
                     im)
         stdout.write("\r{n}".format(n=n))
         stdout.flush()
+        time.sleep(args.period_s)
     stdout.write("\rStop capture\n")
     camera_streamer.join()
