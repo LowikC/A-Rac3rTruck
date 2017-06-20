@@ -14,13 +14,13 @@ class CalibrateDirection(TruckCommand):
         pass
 
     def run(self, status):
-        self.motor.run_timed(speed_sp=300, time_sp=2000)
-        time.sleep(1)
+        self.motor.run_timed(speed_sp=500, time_sp=1000)
+        time.sleep(1.1)
         right_pos = self.motor.position
         print(right_pos)
 
-        self.motor.run_timed(speed_sp=-300, time_sp=2000)
-        time.sleep(1)
+        self.motor.run_timed(speed_sp=-500, time_sp=1000)
+        time.sleep(1.1)
         left_pos = self.motor.position
         print(left_pos)
 
@@ -28,7 +28,10 @@ class CalibrateDirection(TruckCommand):
         print(total)
         self.zero_position = int(round(min(left_pos, right_pos) + total/2))
         print(self.zero_position)
-        self.motor.run_to_abs_pos(speed_sp=300,
+        self.motor.run_to_abs_pos(speed_sp=500,
+                                  position_sp=self.zero_position + 10)
+        time.sleep(1)
+        self.motor.run_to_abs_pos(speed_sp=100,
                                   position_sp=self.zero_position)
         time.sleep(3)
         self.motor.reset()
