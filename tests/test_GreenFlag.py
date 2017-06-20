@@ -66,7 +66,7 @@ class TestGreenFlag(unittest.TestCase):
         im_bgr = cv2.imread(os.path.join(current_dir,
                                          "data/GreenFlag_with_flag.jpg"))
         im_bgr = cv2.resize(im_bgr, (160, 120), interpolation=cv2.INTER_LINEAR)
-        im_hsv = median_hsv(im_bgr)
+        im_hsv = median_hsv(im_bgr, blur_size=5)
         green_flag = GreenFlag()
         self.assertTrue(green_flag._contains_green_flag(im_hsv))
 
@@ -75,7 +75,25 @@ class TestGreenFlag(unittest.TestCase):
         im_bgr = cv2.imread(os.path.join(current_dir,
                                          "data/GreenFlag_no_flag.jpg"))
         im_bgr = cv2.resize(im_bgr, (160, 120), interpolation=cv2.INTER_LINEAR)
-        im_hsv = median_hsv(im_bgr)
+        im_hsv = median_hsv(im_bgr, blur_size=5)
+        green_flag = GreenFlag()
+        self.assertFalse(green_flag._contains_green_flag(im_hsv))
+
+    def test_detect_with_flag_80x60(self):
+        current_dir = os.path.dirname(os.path.realpath(__file__))
+        im_bgr = cv2.imread(os.path.join(current_dir,
+                                         "data/GreenFlag_with_flag.jpg"))
+        im_bgr = cv2.resize(im_bgr, (80, 60), interpolation=cv2.INTER_LINEAR)
+        im_hsv = median_hsv(im_bgr, blur_size=0)
+        green_flag = GreenFlag()
+        self.assertTrue(green_flag._contains_green_flag(im_hsv))
+
+    def test_detect_no_flag_80x60(self):
+        current_dir = os.path.dirname(os.path.realpath(__file__))
+        im_bgr = cv2.imread(os.path.join(current_dir,
+                                         "data/GreenFlag_no_flag.jpg"))
+        im_bgr = cv2.resize(im_bgr, (80, 60), interpolation=cv2.INTER_LINEAR)
+        im_hsv = median_hsv(im_bgr, blur_size=0)
         green_flag = GreenFlag()
         self.assertFalse(green_flag._contains_green_flag(im_hsv))
 

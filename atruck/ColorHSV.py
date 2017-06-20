@@ -7,6 +7,6 @@ ColorHSV = namedtuple("ColorHSV",
                        "val_min", "val_max"])
 
 
-GREEN_HSV = ColorHSV(hue_min=33, hue_max=54,
+GREEN_HSV = ColorHSV(hue_min=30, hue_max=54,
                      sat_min=45, sat_max=200,
                      val_min=125, val_max=250)

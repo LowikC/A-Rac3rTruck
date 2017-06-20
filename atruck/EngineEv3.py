@@ -17,8 +17,8 @@ class EngineEv3(object):
 
         self.green_flag = GreenFlag()
 
-    def get_command(self, im_bgr, timestamp_ms, status):
-        self.save_image(im_bgr, timestamp_ms)
+    def get_command(self, im_bgr, timestamp_s, status):
+        self.save_image(im_bgr, timestamp_s)
         im_hsv = median_hsv(im_bgr)
 
         if not status.go:
@@ -41,7 +41,8 @@ class EngineEv3(object):
             logging.info("Truck is stopped, do nothing")
             return NoCommand()
 
-    def save_image(self, im_bgr, timestamp_ms):
+    def save_image(self, im_bgr, timestamp_s):
+        timestamp_ms = int(round(timestamp_s * 1000))
         cv2.imwrite(os.path.join(self.upload_dir,
                                  "{tms}.jpg".format(tms=timestamp_ms)),
                     im_bgr)

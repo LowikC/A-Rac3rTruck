@@ -2,9 +2,10 @@ import cv2
 import numpy as np
 
 
-def median_hsv(im_bgr):
-    blur_size = 9
-    im_med = cv2.medianBlur(im_bgr, blur_size)
+def median_hsv(im_bgr, blur_size=9):
+    im_med = im_bgr
+    if blur_size > 0:
+        im_med = cv2.medianBlur(im_bgr, blur_size)
     im_hsv = cv2.cvtColor(im_med, code=cv2.COLOR_BGR2HSV)
     return im_hsv
 
