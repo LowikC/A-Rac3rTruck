@@ -11,7 +11,7 @@ class CalibrateDirection(TruckCommand):
         super(CalibrateDirection, self).__init__()
 
     def stop(self):
-        self.motor.stop()
+        pass
 
     def run(self, status):
         self.motor.run_timed(speed_sp=100, time_sp=2000)
@@ -31,3 +31,5 @@ class CalibrateDirection(TruckCommand):
         self.motor.run_to_abs_pos(speed_sp=100, position_sp=self.zero_position)
         time.sleep(2)
         self.motor.reset()
+        self.motor.stop_command = "hold"
+        self.motor.stop()
