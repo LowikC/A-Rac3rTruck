@@ -38,7 +38,7 @@ if __name__ == "__main__":
 
     setup_logging(args.log)
 
-    engine = EngineLocal(args.save_dir)
+    engine = EngineLocal(args.upload_dir)
     logging.debug("Engine created")
     truck = Truck(engine)
     logging.info("Starting truck")
