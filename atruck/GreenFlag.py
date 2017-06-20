@@ -1,17 +1,21 @@
 import numpy as np
 import cv2
+from skimage import measure
 from ColorHSV import GREEN_HSV
 from cvision_utils import threshold_hsv
 
+
 class GreenFlag(object):
     def __init__(self):
+        self._default_im_size = 640 * 480
         self._area_min = 6000
         self._area_max = 64000
         self._area_filled_ratio_min = 0.85
         self._min_frames_ready = 2
         self._min_frames_go = 2
+
         self._im_labels = None
-        self._stats = None
+        self._labels_sizes = None
         self._ready = False
         self._go = False
         self._n_frames_flag = 0
@@ -43,8 +47,11 @@ class GreenFlag(object):
             return False, self._go
         return False, False
 
-    def _valid_size(self, label):
-        return self._area_min < self._stats[label, 4] < self._area_max
+    def _valid_size(self, label, im_size):
+        ratio_size = float(im_size) / self._default_im_size
+        area_min = self._area_min * ratio_size
+        area_max = self._area_max * ratio_size
+        return area_min < self._labels_sizes[label] < area_max
 
     def _get_rotated_rect(self, label):
         y, x = np.nonzero(self._im_labels == label)
@@ -57,20 +64,24 @@ class GreenFlag(object):
         area_filled_ratio_min = 0.85
         rbox = self._get_rotated_rect(label)
         area_box = float(rbox[0][0] * rbox[0][1])
-        return area_box / self._stats[label, 4] > area_filled_ratio_min
+        return area_box / self._labels_sizes[label] > area_filled_ratio_min
 
     def _contains_green_flag(self, im_hsv):
         mask = threshold_hsv(im_hsv, GREEN_HSV)
         cross = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
         mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, cross)
-        n_labels, self._im_labels, self._stats, _ =\
-            cv2.connectedComponentsWithStats(mask)
 
-        for label in xrange(1, n_labels):
-            if not self._valid_size(label):
+        self._im_labels, n_labels = measure.label(mask, background=0,
+                                                  return_num=True)
+        _, self._labels_sizes = np.unique(self._im_labels, return_counts=True)
+
+        im_size = mask.shape[0] * mask.shape[1]
+        for label in xrange(1, n_labels + 1):
+            if not self._valid_size(label, im_size):
                 continue
 
             if self._valid_filled(label):
                 return True
 
         return False
+
