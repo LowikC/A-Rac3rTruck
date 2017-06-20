@@ -19,12 +19,10 @@ class TestCamera(unittest.TestCase):
             time.sleep(0.5)
 
     def test_no_camera(self):
-        try:
-            cam = Camera(999)
-        except NoCameraException:
-            self.assertTrue(True)
-            return
-        self.assertTrue(False)
+        with self.assertRaises(NoCameraException) as context:
+            _ = Camera(999)
+
+        self.assertTrue("Broken" in context.exception)
 
 if __name__ == '__main__':
     unittest.main()
