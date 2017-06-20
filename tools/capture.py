@@ -2,6 +2,7 @@ import cv2
 from Queue import Queue
 import os
 import argparse
+from sys import stdout
 
 from context import atruck
 from atruck.CameraStreamer import CameraStreamer
@@ -35,12 +36,13 @@ if __name__ == "__main__":
                                      resolution=(args.width, args.height))
     camera_streamer.start()
     print("Start capture...")
-    for _ in xrange(20):
+    for n in xrange(args.num):
         im, ts = camera_images.get(block=True, timeout=2)
         tms = int(round(ts * 1000))
         cv2.imwrite(os.path.join(args.save_dir,
                                  "im_{tms}.jpg".format(tms=tms)),
                     im)
-        print("."),
-    print("Stop capture")
+        stdout.write("\r{n}".format(n=n))
+        stdout.flush()
+    stdout.write("\rStop capture\n")
     camera_streamer.join()
