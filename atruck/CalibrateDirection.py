@@ -19,7 +19,7 @@ class CalibrateDirection(TruckCommand):
     def run(self, status):
         # We want to turn by at most n_rots rotations
         # Then multiply by 2 to be sure it will block
-        n_rots = 1
+        n_rots = 1.0
         time_ms = (n_rots / self.speed_rps * 2) * 1000
         # Sleep for the same time + 20% margin
         time_wait_s = time_ms * 1.2 / 1000
@@ -30,7 +30,7 @@ class CalibrateDirection(TruckCommand):
         right_pos = self.motor.position
 
         logging.debug("Run direction to the left, until it blocks")
-        self.motor.run_timed(speed_sp=self.speed_countps, time_sp=time_ms)
+        self.motor.run_timed(speed_sp=-self.speed_countps, time_sp=time_ms)
         time.sleep(time_wait_s)
         left_pos = self.motor.position
 
