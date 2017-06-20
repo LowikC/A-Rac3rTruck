@@ -9,17 +9,19 @@ from TruckStatus import TruckStatus
 
 class Truck(object):
     def __init__(self, engine):
+        self.resolution = (160, 120)
         self.sleep_time_s = 0.01
         self.status = TruckStatus()
         self.camera_images = Queue(maxsize=2)
-        self.camera_streamer = CameraStreamer(self.camera_images, device_id=0)
+        self.camera_streamer = CameraStreamer(self.camera_images,
+                                              device_id=0,
+                                              resolution=self.resolution)
         self.camera_streamer.start()
         self.red_button_watch = RedButtonWatch(self.status)
         self.red_button_watch.start()
         self.collision_watch = CollisionWatch(self.status)
         self.collision_watch.start()
         self.engine = engine
-        time.sleep(2)
 
     def run(self):
         logging.debug("Truck start running")

@@ -4,9 +4,9 @@ from ev3dev.ev3 import Sound
 description = {"name": "GoCommand", "kwargs": {}}
 
 
-class ReadyCommand(TruckCommand):
+class GoCommand(TruckCommand):
     def __init__(self):
-        super(ReadyCommand, self).__init__()
+        super(GoCommand, self).__init__()
 
     def run(self, status):
         status.go = True
