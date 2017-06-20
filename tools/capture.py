@@ -41,5 +41,6 @@ if __name__ == "__main__":
         cv2.imwrite(os.path.join(args.save_dir,
                                  "im_{tms}.jpg".format(tms=tms)),
                     im)
+        print("."),
     print("Stop capture")
     camera_streamer.join()
