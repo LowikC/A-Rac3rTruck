@@ -11,10 +11,14 @@ from NoCommand import NoCommand
 
 class EngineEv3(object):
     def __init__(self):
+        self.upload_dir = "/home/robot/atruck/data/tmp/"
+        if not os.path.exists(self.upload_dir):
+            os.makedirs(self.upload_dir)
+
         self.green_flag = GreenFlag()
-        pass
 
     def get_command(self, im_bgr, timestamp_ms, status):
+        self.save_image(im_bgr, timestamp_ms)
         im_hsv = median_hsv(im_bgr)
 
         if not status.go:
@@ -37,3 +41,7 @@ class EngineEv3(object):
             logging.info("Truck is stopped, do nothing")
             return NoCommand()
 
+    def save_image(self, im_bgr, timestamp_ms):
+        cv2.imwrite(os.path.join(self.upload_dir,
+                                 "{tms}.jpg".format(tms=timestamp_ms)),
+                    im_bgr)
