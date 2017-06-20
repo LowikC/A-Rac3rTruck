@@ -37,7 +37,7 @@ if __name__ == "__main__":
     print("Start capture...")
     for _ in xrange(20):
         im, ts = camera_images.get(block=True, timeout=2)
-        tms = round(int(ts * 1000))
+        tms = int(round(ts * 1000))
         cv2.imwrite(os.path.join(args.save_dir,
                                  "im_{tms}.jpg".format(tms=tms)),
                     im)
