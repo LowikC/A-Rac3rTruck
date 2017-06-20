@@ -5,6 +5,7 @@ from CameraStreamer import CameraStreamer
 from RedButtonWatch import RedButtonWatch
 from CollisionWatch import CollisionWatch
 from TruckStatus import TruckStatus
+from CalibrateDirection import CalibrateDirection
 
 
 class Truck(object):
@@ -25,6 +26,7 @@ class Truck(object):
 
     def run(self):
         logging.debug("Truck start running")
+        CalibrateDirection().run()
         while not self.status.over:
             im_bgr, timestamp_s = self.camera_images.get(block=True, timeout=5)
             logging.debug("Got image, ts={t}".format(t=timestamp_s))
