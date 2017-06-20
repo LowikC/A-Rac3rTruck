@@ -11,7 +11,7 @@ class TestCalibrateDirection(unittest.TestCase):
         cd = CalibrateDirection()
         cd.run(None)
         cd.run(None)
-        tolerance = 5
+        tolerance = 15
         self.assertLess(abs(cd.zero_position), tolerance)
 
 if __name__ == '__main__':

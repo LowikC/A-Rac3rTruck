@@ -7,7 +7,7 @@ from TruckMotors import direction_motor
 class CalibrateDirection(TruckCommand):
     def __init__(self):
         self.motor = direction_motor
-        self.speed_rps = 1.5
+        self.speed_rps = 2
         self.speed_countps = self.motor.count_per_rot * self.speed_rps
         # For unit test
         self.zero_position = None
@@ -21,8 +21,8 @@ class CalibrateDirection(TruckCommand):
         # Then multiply by 2 to be sure it will block
         n_rots = 1.0
         time_ms = (n_rots / self.speed_rps * 2) * 1000
-        # Sleep for the same time + 50% margin
-        time_wait_s = time_ms * 1.5 / 1000
+        # Sleep for the same time + 80% margin so that the motor stop correctly
+        time_wait_s = time_ms * 1.8 / 1000
 
         logging.debug("Run direction to the right, until it blocks")
         self.motor.run_timed(speed_sp=self.speed_countps, time_sp=time_ms)
@@ -44,9 +44,9 @@ class CalibrateDirection(TruckCommand):
         time.sleep(time_wait_s)
 
         logging.debug("Run to exact zero position")
-        self.motor.run_to_abs_pos(speed_sp=self.speed_countps,
+        self.motor.run_to_abs_pos(speed_sp=self.speed_countps/2,
                                   position_sp=self.zero_position)
-        time.sleep(time_wait_s)
+        time.sleep(time_wait_s * 2)
 
         logging.debug("Reset motor, so that current position is 0")
         self.motor.reset()
