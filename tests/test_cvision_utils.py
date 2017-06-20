@@ -13,18 +13,15 @@ class TestCVisionUtils(unittest.TestCase):
         im_hsv[100:100+m_h, 150:150+m_w, 0] = np.random.randint(
             low=GREEN_HSV.hue_min + 1,
             high=GREEN_HSV.hue_max,
-            size=(m_h, m_w),
-            dtype=np.uint8)
+            size=(m_h, m_w)).astype(np.uint8)
         im_hsv[100:100 + m_h, 150:150 + m_w, 1] = np.random.randint(
             low=GREEN_HSV.sat_min + 1,
             high=GREEN_HSV.sat_max,
-            size=(m_h, m_w),
-            dtype=np.uint8)
+            size=(m_h, m_w)).astype(np.uint8)
         im_hsv[100:100 + m_h, 150:150 + m_w, 2] = np.random.randint(
             low=GREEN_HSV.val_min + 1,
             high=GREEN_HSV.val_max,
-            size=(m_h, m_w),
-            dtype=np.uint8)
+            size=(m_h, m_w)).astype(np.uint8)
 
         start_s = time.time()
         for _ in xrange(10):
