@@ -6,7 +6,7 @@ from atruck.GreenFlag import GreenFlag
 from atruck.cvision_utils import median_hsv
 
 
-if __name__ == "__main__"
+if __name__ == "__main__":
     current_dir = os.path.dirname(os.path.realpath(__file__))
     im_bgr = cv2.imread(os.path.join(current_dir,
                                      "../tests/data/GreenFlag_with_flag.jpg"))
