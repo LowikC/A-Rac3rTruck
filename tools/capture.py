@@ -41,7 +41,7 @@ if __name__ == "__main__":
         im, ts = camera_images.get(block=True, timeout=2)
         tms = int(round(ts * 1000))
         cv2.imwrite(os.path.join(args.save_dir,
-                                 "im_{tms}.jpg".format(tms=tms)),
+                                 "im_{tms}.png".format(tms=tms)),
                     im)
         stdout.write("\r{n}".format(n=n))
         stdout.flush()
